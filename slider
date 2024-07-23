@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Draggable Slider</title>
+  <style>
+    .slider-container {
+      width: 100%; 
+      height: 30px;
+      background-color: #ddd;
+      border-radius: 15px;
+      position: relative;
+      margin: 20px auto;
+    }
+
+    .slider-handle {
+      width: 30px;
+      height: 30px;
+      background-color: #4CAF50;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: grab;
+    }
+
+    .slider-handle:active {
+      cursor: grabbing;
+    }
+
+    .slider-fill {
+      background-color: #4CAF50;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 15px 0 0 15px; 
+    }
+
+    .word-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .word {
+      text-align: center;
+      width: 100px;
+      font-family: 'arial';
+      font-size: 24px; 
+      color: #007bff; /* Blue color */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="word-container">
+    <div class="word">Bad</div>
+    <div class="word">Kind of Good</div>
+    <div class="word">Awesome</div>
+  </div>
+
+  <div class="slider-container">
+    <div class="slider-fill"></div>
+    <div class="slider-handle"></div>
+  </div>
+
+  <script>
+    const sliderContainer = document.querySelector('.slider-container');
+    const sliderHandle = document.querySelector('.slider-handle');
+    const sliderFill = document.querySelector('.slider-fill');
+
+    let isDragging = false;
+    let startX, sliderWidth;
+
+    sliderContainer.addEventListener('mousedown', (e) => {
+      if (e.target === sliderHandle) {
+        isDragging = true;
+        startX = e.clientX - sliderHandle.offsetLeft;
+        sliderWidth = sliderContainer.offsetWidth;
+      }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        let newLeft = e.clientX - startX;
+        newLeft = Math.max(0, newLeft);
+        newLeft = Math.min(sliderWidth - sliderHandle.offsetWidth, newLeft);
+        sliderHandle.style.left = newLeft + 'px';
+        sliderFill.style.width = newLeft + 'px';
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  </script>
+
+</body>
+
+</html>
